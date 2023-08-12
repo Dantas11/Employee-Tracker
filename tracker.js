@@ -61,7 +61,7 @@ const InquirerPrompt = () => {
           }
 
           if (choices === "Update employee role") {
-              employeeInfomation();
+            updateEmployeeRole();
           }
 
           if (choices === "Exit") {
@@ -207,3 +207,57 @@ addEmployees = ()  => {
       })
   })
 }
+
+updateEmployeeRole = () => {
+  const employeemysql = `SELECT * FROM employee`;
+
+  connection.query(employeemysql, (err, data) => {
+
+      const employee = data.map(({ id, first_name, last_name }) => ({ name: first_name + " " + last_name, value: id }));
+
+      inquirer.prompt([
+          {
+              type: 'list',
+              name: 'name',
+              message: 'Which employee do we want to update?',
+              choices: employee
+          }
+      ])
+          .then(employeeChoice => {
+              const employee = employeeChoice.name;
+              const parameters = [];
+              parameters.push(employee);
+
+              const role_var = `SELECT * FROM role`;
+
+              connection.query(role_var, (err, data) => {
+                  if (err) return console.log(err);
+                  const roles = data.map(({ id, title }) => ({ name: title, value: id }));
+
+                  inquirer.prompt([
+                      {
+                          type: 'list',
+                          name: 'role',
+                          message: 'What is the new role?',
+                          choices: roles
+                      }
+                  ])
+                      .then(roleChoice => {
+                          const role = roleChoice.role;
+                          parameters.push(role);
+                          let employee = parameters[0]
+                          parameters[0] = role
+                          parameters[1] = employee
+                          const mysql = `UPDATE employee SET role_id = ? WHERE id = ?`;
+
+                          connection.query(mysql, parameters, (err, result) => {
+                              if (err) return console.log(err);
+                              console.log('Role has been updated.');
+
+                              showEmployees();
+                          })
+                      })
+              })
+          })
+  })
+};
