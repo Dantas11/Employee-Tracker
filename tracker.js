@@ -80,3 +80,14 @@ showDepartments = () => {
       InquirerPrompt();
   });
 }
+
+showRoles = () => {
+  console.log('Show all roles.');
+
+  const mysql = `SELECT roles.id, roles.title, department.name AS department FROM roles LEFT JOIN department ON roles.department_id = department.id`;
+
+  connection.query(mysql, (err, rows) => {
+      console.table(rows);
+      InquirerPrompt();
+  })
+};
