@@ -27,8 +27,7 @@ const InquirerPrompt = () => {
               'Add department',
               'Add role',
               'Add employee',
-              'Update all departments',
-              'Update employee infomation',
+              'Update employee role',
               'Exit'
           ]
       }
@@ -61,11 +60,7 @@ const InquirerPrompt = () => {
               addEmployees();
           }
 
-          if (choices === "Update all departments") {
-              allDepartments();
-          }
-
-          if (choices === "Update employee infomation") {
+          if (choices === "Update employee role") {
               employeeInfomation();
           }
 
@@ -75,3 +70,13 @@ const InquirerPrompt = () => {
       });
 };
 
+showDepartments = () => {
+  console.log('All departments are showing.');
+  const mysql = `SELECT department.id AS id, department.name AS department FROM department`;
+
+  connection.query(mysql, (err, rows) => {
+      if (err) return console.log(err);
+      console.table(rows);
+      InquirerPrompt();
+  });
+}
