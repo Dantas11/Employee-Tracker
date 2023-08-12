@@ -84,7 +84,7 @@ showDepartments = () => {
 showRoles = () => {
   console.log('Show all roles.');
 
-  const mysql = `SELECT roles.id, roles.title, department.name AS department FROM roles LEFT JOIN department ON roles.department_id = department.id`;
+  const mysql = `SELECT role.id, role.title, department.name AS department FROM role LEFT JOIN department ON role.department_id = department.id`;
 
   connection.query(mysql, (err, rows) => {
       console.table(rows);
@@ -94,7 +94,7 @@ showRoles = () => {
 
 showEmployees = () => {
   console.log('All employees are showing.');
-  const mysql = `SELECT employee.id, employee.first_name, employee.last_name, roles.title, department.name AS department, roles.salary, CONCAT(mgr.first_name, mgr.last_name) AS manager FROM employee LEFT JOIN roles ON employee.role_id = roles.id LEFT JOIN department ON roles.department_id = department.id LEFT JOIN employee mgr ON employee.manager_id = mgr.id`;
+  const mysql = `SELECT employee.id, employee.first_name, employee.last_name, role.title, department.name AS department, role.salary, CONCAT(mgr.first_name, ' ' ,mgr.last_name) AS manager FROM employee LEFT JOIN role ON employee.role_id = role.id LEFT JOIN department ON role.department_id = department.id LEFT JOIN employee mgr ON employee.manager_id = mgr.id`;
 
   connection.query(mysql, (err, rows) => {
       if (err) return console.log(err);
@@ -156,7 +156,7 @@ addRoles = () => {
                   .then(department_varChoice => {
                       const department_var = department_varChoice.department_var;
                       parameters.push(department_var);
-                      const mysql = `INSERT INTO roles (title, salary, department_id) VALUES (?,?,?)`;
+                      const mysql = `INSERT INTO role (title, salary, department_id) VALUES (?,?,?)`;
 
                       connection.query(mysql, parameters, (err, result) => {
                           if (err) return console.log(err);
