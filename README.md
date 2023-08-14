@@ -12,7 +12,7 @@ SO THAT I can organize and plan my business
 
 ## SCREENSHOTS
 
-![Note Take]()
+![Note Take](https://github.com/Dantas11/Employee-Tracker/blob/main/assets/images/employee-tracker.png)
 
 ## Installation
 
@@ -22,9 +22,11 @@ npm install --save mysql2
 
 ## Usage
 
-After installing the dependencies, run the application with:
+After installing the dependencies, open in a integrated terminal and run the application with:
 
 node tracker.js
+
+Link for application: https://www.youtube.com/watch?v=_aZYBtckcm0 
 
 ## Licence
 
